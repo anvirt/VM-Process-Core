@@ -1,0 +1,3 @@
+[submodule "vm-process-protocol"]
+	path = vm-process-protocol
+	url = git@github.com:anvirt/VM-Process-Protocol.git
