@@ -20,6 +20,7 @@ package log
 
 import (
 	"os"
+	"runtime"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -39,6 +40,14 @@ var (
 	_log_if ILogger
 )
 
+type LogFile struct {
+	f *os.File
+}
+
+func (file *LogFile) Write(p []byte) (n int, err error) {
+	return file.f.Write(p)
+}
+
 // 初始化日志
 func init() {
 	// TODO: 日志文件路径应该在某处设定？
@@ -52,7 +61,12 @@ func Log2File(outFile *os.File) {
 	// err = log.New(outFile, "[ERROR] ", flag|log.Lshortfile)
 	// debug = log.New(outFile, "[DEBUG] ", flag|log.Lshortfile)
 	_log = log.New()
-	_log.SetOutput(outFile)
+	// logrus内部判断输出文件是否为terminal时，在intel的mac上，会导致一个栈对齐的问题，暂时不知道怎么解决。包装一层Writer可以跳过这个判断
+	if runtime.GOOS == "darwin" && runtime.GOARCH == "amd64" {
+		_log.SetOutput(&LogFile{f: outFile})
+	} else {
+		_log.SetOutput(outFile)
+	}
 	_log.SetLevel(log_level)
 }
 
