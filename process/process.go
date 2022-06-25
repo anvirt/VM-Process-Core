@@ -64,6 +64,10 @@ func (proc *VMProcess) CheckReady() (err error) {
 	return
 }
 
+func (proc *VMProcess) BootComplete() (err error) {
+	return proc.agent.ReportStatus(1000, "bootcomplete")
+}
+
 func (proc *VMProcess) OnEvent(t int, payload string) {
 	switch t {
 	case 19999:

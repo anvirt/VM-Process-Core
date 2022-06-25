@@ -33,6 +33,7 @@ typedef void (*anv_vmproc_request_close)(void);
 #ifndef GOLANG_API
 ANV_VMPROC_API int anv_vmproc_main(anv_gui_main_loop_func main_loop, anv_qemu_main qemu_main);
 ANV_VMPROC_API int anv_vmproc_check_ready(void);
+ANV_VMPROC_API int anv_vmproc_boot_complete(void);
 ANV_VMPROC_API char *anv_vmproc_get_name(void);
 ANV_VMPROC_API void anv_vmproc_on_exit(void);
 ANV_VMPROC_API int anv_vmproc_start_vm(anv_vmproc_request_close request_close);

@@ -59,6 +59,16 @@ func anv_vmproc_check_ready() int {
 	}
 }
 
+//export anv_vmproc_boot_complete
+func anv_vmproc_boot_complete() int {
+	if err := process.Global().BootComplete(); err != nil {
+		log.W2("notify bootcomplete failed: %v", err)
+		return -1
+	} else {
+		return 0
+	}
+}
+
 //export anv_vmproc_get_name
 func anv_vmproc_get_name() *C.char {
 	return C.CString(process.Global().GetName())
